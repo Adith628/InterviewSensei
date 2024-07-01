@@ -1,9 +1,13 @@
-import React from 'react'
+"use client";
+import CaptureControl from "@components/CaptureControl";
+import React from "react";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <CaptureControl />
+    </div>
+  );
+};
 
-export default page
+export default page;

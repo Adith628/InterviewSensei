@@ -1,20 +1,22 @@
-import Nav from "@components/Nav";
+
+import React from "react";
+import { DM_Sans } from "next/font/google";
+
+const inter = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
 
 export const metadata = {
-  title: "InterviewSensei",
-  description:
-    "Web application where people can practice their interview skills",
+  title: "InterviewSensei  ",
+  description: "Ace interview",
 };
 
-const RootLayout = ({ children }) => (
-  <html lang="en">
-    <body>
-      <main className="app">
-        <Nav />
-        {children}
-      </main>
-    </body>
-  </html>
-);
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
+    </html>
+  );
+}
 
-export default RootLayout;
