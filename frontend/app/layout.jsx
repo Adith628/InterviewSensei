@@ -1,9 +1,20 @@
-import React from 'react'
+import Nav from "@components/Nav";
 
-const layout = () => {
-  return (
-    <div>layout</div>
-  )
-}
+export const metadata = {
+  title: "InterviewSensei",
+  description:
+    "Web application where people can practice their interview skills",
+};
 
-export default layout
+const RootLayout = ({ children }) => (
+  <html lang="en">
+    <body>
+      <main className="app">
+        <Nav />
+        {children}
+      </main>
+    </body>
+  </html>
+);
+
+export default RootLayout;
