@@ -1,3 +1,4 @@
+
 import React from "react";
 import { DM_Sans } from "next/font/google";
 
@@ -18,3 +19,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
