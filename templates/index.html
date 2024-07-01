@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Audio and Video Capture</title>
+  </head>
+  <body>
+    <h1>Audio and Video Capture</h1>
+    <button onclick="startCapture()">Start Capture</button>
+    <button onclick="stopCapture()">Stop Capture</button>
+
+    <script>
+      function startCapture() {
+        fetch("/start");
+      }
+
+      function stopCapture() {
+        fetch("/stop");
+      }
+    </script>
+  </body>
+</html>
