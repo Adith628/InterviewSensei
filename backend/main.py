@@ -4,6 +4,8 @@ import os
 import json
 from dotenv import load_dotenv
 
+from tts import tts
+
 
 # To load environment variables from .env file
 load_dotenv()
@@ -12,8 +14,8 @@ load_dotenv()
 api_key = os.getenv('OCTOAI_API_KEY')
 
 # To ensure the API key is loaded
-if not api_key:
-    raise ValueError("API key not found. Please ensure OCTOAI_API_KEY is set in the .env file.")
+# if not api_key:
+#     raise ValueError("API key not found. Please ensure OCTOAI_API_KEY is set in the .env file.")
 
 # Initialize the OctoAI client
 client = OctoAI(
@@ -24,16 +26,19 @@ client = OctoAI(
 def chat_with_llm():
     user_input = ""
     history = []
+
     while user_input.lower() != "exit":
         user_input = input("You: ")
         if user_input.lower() == "exit":
             break
         prompt = ""
 
+
         # Appending last 4 (max) prompts and answers from history to the input
         for q,a in history[-4:]:
             prompt += f" q: {q} a: {a} \n"
         prompt += f" q: {user_input} a: \n"
+
 
         n=0
         answer = ""
@@ -61,9 +66,13 @@ def chat_with_llm():
             else:
                 answer += response.choices[0].delta.content
                 print(response.choices[0].delta.content, end='', flush=True)
+
         history.append([user_input, answer])
         # print(history)    # Printing the history of prompts and answers
         print()     # Adding a new line for clarity
+        
+        required_text = history[-1][1]
+        tts(required_text)
 
 
 if __name__ == "__main__":
