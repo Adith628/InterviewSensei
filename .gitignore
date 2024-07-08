@@ -1,2 +1,6 @@
 myenv/*
 .env
+.mp3
+
+backend/audio/*
+backend/__pycache__
