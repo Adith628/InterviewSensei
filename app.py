@@ -36,7 +36,7 @@ tts_options = TTSOptions(
     format=Format.FORMAT_MP3,
     speed=1,
 )
-output_file = "./audio/output.mp3"
+output_file = "./output.mp3"
 
 def tts(required_text):
     # Write TTS output to file
@@ -172,5 +172,5 @@ def stop_capture():
     return "Stopped capturing audio and video."
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # start_capture()
+    # app.run(debug=True)
+    start_capture()
