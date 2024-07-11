@@ -1,4 +1,3 @@
-import threading
 import pyaudio
 import numpy as np
 import speech_recognition as sr

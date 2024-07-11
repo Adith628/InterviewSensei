@@ -4,16 +4,10 @@ import threading
 from audio import record_audio
 from video import capture_video
 from dotenv import load_dotenv
-import os
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Initialize Flask app and enable CORS
 app = Flask(__name__)
 CORS(app)
 
-# Initialize stop event
 stop_event = threading.Event()
 
 @app.route('/')
