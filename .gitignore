@@ -4,3 +4,4 @@ myenv/*
 
 backend/audio/*
 backend/__pycache__
+envint/
