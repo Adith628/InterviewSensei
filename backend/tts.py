@@ -11,7 +11,7 @@ tts_options = TTSOptions(
     format=Format.FORMAT_MP3,
     speed=1,
 )
-output_file = "./audio/output.mp3"
+output_file = "./output.mp3"
 
 def tts(required_text):
     with open(output_file, "wb") as f:
