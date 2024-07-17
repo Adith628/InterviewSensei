@@ -25,13 +25,25 @@ const AudioRecorder = ({ onSubmit }) => {
     setIsRecording(false);
   };
 
+  const downloadAudio = () => {
+    const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
+    const url = URL.createObjectURL(audioBlob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = "audio.wav";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <div>
-      <button
-        className="bg-gray-700"
-        onClick={isRecording ? stopRecording : startRecording}
-      >
+      <button onClick={isRecording ? stopRecording : startRecording}>
         {isRecording ? "Stop Recording" : "Start Recording"}
+      </button>
+      <button onClick={downloadAudio} disabled={!audioChunksRef.current.length}>
+        Download Audio
       </button>
     </div>
   );
