@@ -140,8 +140,8 @@ const Interview = () => {
           <button
             onClick={toggleTheme}
             className={`p-2 rounded-full ${darkMode
-                ? "bg-yellow-400 text-gray-900"
-                : "bg-gray-800 text-white"
+              ? "bg-yellow-400 text-gray-900"
+              : "bg-gray-800 text-white"
               }`}
           >
             {darkMode ? "☀️" : "🌙"}
@@ -157,8 +157,8 @@ const Interview = () => {
           <button
             onClick={isRecording ? handleStopRecording : handleStartRecording}
             className={`${isRecording
-                ? "bg-red-500 hover:bg-red-600"
-                : "bg-blue-500 hover:bg-blue-600"
+              ? "bg-red-500 hover:bg-red-600"
+              : "bg-blue-500 hover:bg-blue-600"
               } 
             text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out`}
           >
@@ -198,7 +198,7 @@ const Interview = () => {
             <p>{error}</p>
           </div>
         )}
-        <audio ref={audioRef} style={{display: 'none'}} controls />
+        <audio ref={audioRef} style={{ display: 'none' }} controls />
       </div>
     </div>
   );
