@@ -141,7 +141,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <Interview />
+      {/* <Interview /> */}
     </>
   );
 }
