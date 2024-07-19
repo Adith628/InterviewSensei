@@ -1,33 +1,84 @@
-from flask import Flask, render_template
+from flask import Flask, request, jsonify,send_file
 from flask_cors import CORS
-import threading
-from audio import record_audio
-from video import capture_video
+import random
+import os
 from dotenv import load_dotenv
+from octoai.text_gen import ChatMessage
+from octoai.client import OctoAI
+import uuid
+from tts import tts
+
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-stop_event = threading.Event()
+print("Hello World")
+# Retrieve API key from environment variables
+api_key = os.getenv('OCTOAI_API_KEY')
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Initialize OctoAI client
+client = OctoAI(api_key=api_key)
 
-@app.route('/api/start')
-def start_capture():
-    video_thread = threading.Thread(target=capture_video, args=(stop_event,))
-    audio_thread = threading.Thread(target=record_audio, args=(stop_event,))
+questions = [
+    "Tell me about yourself.",
+    "What are your strengths?",
+    "What are your weaknesses?",
+    "Why do you want to work for our company?",
+    "Where do you see yourself in 5 years?",
+]
 
-    video_thread.start()
-    audio_thread.start()
+def chat_with_llm(user_input, question):
+    system_prompt = "You are an AI assistant conducting a mock job interview. Provide constructive feedback on the candidate's answer. Be concise but informative."
+    user_prompt = f"Question: {question}\nCandidate's Answer: {user_input}\nPlease provide feedback on the candidate's answer:"
 
-    return "Started capturing audio and video."
+    response = ""
+    for stream_response in client.text_gen.create_chat_completion_stream(
+        max_tokens=150,
+        messages=[
+            ChatMessage(content=system_prompt, role="system"),
+            ChatMessage(content=user_prompt, role="user")
+        ],
+        model="hermes-2-pro-llama-3-8b",
+        presence_penalty=0,
+        temperature=0.7,
+        top_p=1,
+    ):
+        if stream_response.choices[0].delta.content:
+            response += stream_response.choices[0].delta.content
 
-@app.route('/api/stop')
-def stop_capture():
-    stop_event.set()
-    return "Stopped capturing audio and video."
+    return response.strip()
+
+@app.route('/api/question', methods=['GET'])
+def get_question():
+    question = random.choice(questions)
+    return jsonify({"question": question})
+
+@app.route('/api/answer', methods=['POST'])
+def process_answer():
+    data = request.json
+    if 'answer' not in data or 'question' not in data:
+        return jsonify({"error": "No answer or question provided"}), 400
+
+    answer = data['answer']
+    question = data['question']
+
+    # Pass the answer to the LLM and get feedback
+    llm_response = chat_with_llm(answer, question)
+    filename = f"{uuid.uuid4()}.mp3"
+    output_file = f"./audio/{filename}"
+    tts(llm_response, output_file)
+
+    return jsonify({
+        "response": llm_response,
+        "audio_url": f"/api/audio/{filename}"
+    })
+
+@app.route('/api/audio/<filename>', methods=['GET'])
+def serve_audio(filename):
+    return send_file(f"./audio/{filename}", mimetype="audio/mpeg")
 
 if __name__ == '__main__':
     app.run(debug=True)

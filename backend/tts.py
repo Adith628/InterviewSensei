@@ -1,8 +1,6 @@
 from pyht import Client, TTSOptions, Format
 import os
 from dotenv import load_dotenv
-import pygame
-
 load_dotenv()
 
 playht_client = Client(os.getenv("PLAY_HT_USER_ID"), os.getenv("PLAY_HT_API_KEY"))
@@ -11,18 +9,8 @@ tts_options = TTSOptions(
     format=Format.FORMAT_MP3,
     speed=1,
 )
-output_file = "./output.mp3"
 
-def tts(required_text):
+def tts(required_text, output_file):
     with open(output_file, "wb") as f:
         for chunk in playht_client.tts(text=required_text, voice_engine="PlayHT2.0-turbo", options=tts_options):
             f.write(chunk)
-    
-    pygame.mixer.init()
-    pygame.mixer.music.load(output_file)
-    pygame.mixer.music.play()
-
-    while pygame.mixer.music.get_busy():
-        pygame.time.Clock().tick(1)
-    
-    pygame.quit()

@@ -1,26 +1,33 @@
 {
-  "name": "frontend",
+  "name": "new_front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "start-flask": "python ../app.py",
-    "lint": "next lint",
-    "both": "concurrently \"npm run dev\" \"npm run start-flask\""
+    "lint": "next lint"
   },
   "dependencies": {
+    "@babel/runtime": "^7.24.8",
+    "@types/dom-speech-recognition": "^0.0.4",
     "axios": "^1.7.2",
-    "concurrently": "^8.2.2",
-    "next": "14.2.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.3.7",
+    "lucide-react": "^0.408.0",
+    "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-media-recorder": "^1.6.6",
+    "react-speech-recognition": "^3.10.0",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.24.7",
     "eslint": "^8",
-    "eslint-config-next": "14.2.4",
+    "eslint-config-next": "14.2.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }

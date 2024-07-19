@@ -1,0 +1,5 @@
+Flask==3.0.3
+flask_cors==4.0.1
+octoai==1.5.0
+pyht==0.0.28
+python-dotenv==1.0.1

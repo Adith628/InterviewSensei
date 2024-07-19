@@ -2,6 +2,6 @@ myenv/*
 .env
 .mp3
 
-backend/audio/*
-backend/__pycache__
-envint/
+Backend/audio/*
+Backend/__pycache__
+Backend/int/*
