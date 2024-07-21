@@ -54,7 +54,10 @@ def chat_with_llm(user_input, question):
 @app.route('/api/question', methods=['GET'])
 def get_question():
     question = random.choice(questions)
-    return jsonify({"question": question})
+    filename = f"{uuid.uuid4()}.mp3"
+    output_file = f"./audio/{filename}"
+    tts(question, output_file)
+    return jsonify({"question": question, "audio_url": f"/api/audio/{filename}"})
 
 @app.route('/api/answer', methods=['POST'])
 def process_answer():

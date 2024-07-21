@@ -88,8 +88,15 @@ const page = () => {
         try {
             const res = await axios.get("http://localhost:5000/api/question");
             setQuestion(res.data.question);
-            speakText(res.data.question);
-            setQno((prevQno) => prevQno + 1);
+            setResponse("");
+            setTranscript("");
+            setAudioUrl(res.data.audio_url);
+            setQno(qno + 1);
+
+            if (audioRef.current) {
+                audioRef.current.src = res.data.audio_url;
+                audioRef.current.play();
+            }
         } catch (error) {
             console.error("Error fetching question:", error);
             setError("Error fetching question. Please try again.");
@@ -124,13 +131,16 @@ const page = () => {
             });
             setResponse(res.data.response);
             setAudioUrl(res.data.audio_url);
-            // Play the audio
+
+            // Play the feedback audio
             if (audioRef.current) {
                 audioRef.current.src = res.data.audio_url;
-                audioRef.current.play();
+                await audioRef.current.play();
             }
-            // Fetch the next question after receiving feedback
-            fetchQuestion();
+
+            audioRef.current.onended = () => {
+                fetchQuestion();
+            };
         } catch (error) {
             console.error("Error sending answer:", error);
             setError("Error sending answer. Please try again.");
